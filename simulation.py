@@ -12,9 +12,10 @@ p.setGravity(0,0,-9.8)
 
 #adding a floor
 planeId = p.loadURDF("plane.urdf")
+bodyId = p.loadURDF("body.urdf")
 
-#loading the box from generate.py
-p.loadSDF("boxes.sdf")
+#loading the mininal world from generate.py
+p.loadSDF("min_wrld.sdf")
 
 
 #This statement increases the physics inside the world for a small amount. 
