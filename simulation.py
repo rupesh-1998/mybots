@@ -14,7 +14,7 @@ p.setGravity(0,0,-9.8)
 planeId = p.loadURDF("plane.urdf")
 
 #loading the box from generate.py
-p.loadSDF("box.sdf")
+p.loadSDF("boxes.sdf")
 
 
 #This statement increases the physics inside the world for a small amount. 
