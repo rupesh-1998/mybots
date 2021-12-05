@@ -24,15 +24,19 @@ p.loadSDF("min_wrld.sdf")
 #For example, if an object is suspended above the ground, 
 #it will move a small distance toward the ground, 
 #because simulated gravity is pulling it down.
-backLegSensorValues = np.zeros(10000)
+backLegSensorValues = np.zeros(1000)
+frontLegSensorValues = np.zeros(1000)
+
 
 pyrosim.Prepare_To_Simulate("body.urdf")
 for i in range(1000):
     p.stepSimulation()
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("bLeg")
+    frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("fLeg")
 
     time.sleep(1/60)
 p.disconnect()
 
-print(backLegSensorValues)
-np.save(r"C:\Users\rupes\Data Science Masters\Nature Inspired Computation\CW2\data", backLegSensorValues)
+#print(backLegSensorValues)
+np.save(r"C:\Users\rupes\Data Science Masters\Nature Inspired Computation\CW2\data\backLegSensorValues", backLegSensorValues)
+np.save(r"C:\Users\rupes\Data Science Masters\Nature Inspired Computation\CW2\data\frontLegSensorValues", frontLegSensorValues)
