@@ -3,6 +3,8 @@ import time
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
 import numpy as np
+import math
+import random
 
 #This creates an object, physicsClient, which handles the physics, 
 #and draws the results to a Graphical User Interface (GUI).
@@ -15,6 +17,8 @@ p.setGravity(0,0,-9.8)
 #adding a floor
 planeId = p.loadURDF("plane.urdf")
 bodyId = p.loadURDF("body.urdf")
+robot = bodyId
+
 
 #loading the mininal world from generate.py
 p.loadSDF("min_wrld.sdf")
@@ -34,9 +38,37 @@ for i in range(1000):
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("bLeg")
     frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("fLeg")
 
+    pyrosim.Set_Motor_For_Joint(
+
+    bodyIndex = robot,
+
+    jointName = "Torso_bLeg",
+
+    controlMode = p.POSITION_CONTROL,
+
+    targetPosition = random.random()*(0.5*math.pi)-math.pi/4,
+
+    maxForce = 500)
+
+    pyrosim.Set_Motor_For_Joint(
+
+    bodyIndex = robot,
+
+    jointName = "Torso_fLeg",
+
+    controlMode = p.POSITION_CONTROL,
+
+    targetPosition = random.random()*(0.5*math.pi)-math.pi/4,
+
+    maxForce = 500)
+
+    
+    if i < 19:
+        print(random.random()-math.pi/2)
     time.sleep(1/60)
 p.disconnect()
 
 #print(backLegSensorValues)
 np.save(r"C:\Users\rupes\Data Science Masters\Nature Inspired Computation\CW2\data\backLegSensorValues", backLegSensorValues)
 np.save(r"C:\Users\rupes\Data Science Masters\Nature Inspired Computation\CW2\data\frontLegSensorValues", frontLegSensorValues)
+

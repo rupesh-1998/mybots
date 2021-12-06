@@ -35,19 +35,21 @@ def Create_World():
     pyrosim.End()
 
 def Create_Robot():
+    zm=0.5#abs((2*(0.5**2))**(1/2)-0.5)
+    print(zm)
     pyrosim.Start_URDF("body.urdf")
 
     length, width, height = 1, 1, 1
-    x, y, z = 1.5, 0, 1.5
+    x, y, z = 1.5, 0, 2
     pyrosim.Send_Cube(name="Torso", pos=[x,y,z] , size=[length, width, height])
 
-    pyrosim.Send_Joint(name = "Torso_bLeg" , parent= "Torso" , child = "bLeg" , type = "revolute", position = "1 0 1")
+    pyrosim.Send_Joint(name = "Torso_bLeg" , parent= "Torso" , child = "bLeg" , type = "revolute", position = "1 0 1.5")
 
     length, width, height = 1, 1, 1
     x, y, z = -0.5, 0, -0.5
     pyrosim.Send_Cube(name="bLeg", pos=[x,y,z] , size=[length, width, height])
 
-    pyrosim.Send_Joint(name = "Torso_fLeg" , parent= "Torso" , child = "fLeg" , type = "revolute", position = "2 0 1")
+    pyrosim.Send_Joint(name = "Torso_fLeg" , parent= "Torso" , child = "fLeg" , type = "revolute", position = "2 0 1.5")
 
     length, width, height = 1, 1, 1
     x, y, z = 0.5, 0, -0.5
