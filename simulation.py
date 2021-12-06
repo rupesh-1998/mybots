@@ -5,7 +5,9 @@ import pyrosim.pyrosim as pyrosim
 import numpy as np
 import math
 import random
-import matplotlib.pyplot as plt
+import constants as c
+
+
 
 #This creates an object, physicsClient, which handles the physics, 
 #and draws the results to a Graphical User Interface (GUI).
@@ -29,34 +31,20 @@ p.loadSDF("min_wrld.sdf")
 #For example, if an object is suspended above the ground, 
 #it will move a small distance toward the ground, 
 #because simulated gravity is pulling it down.
-backLegSensorValues = np.zeros(1000)
-frontLegSensorValues = np.zeros(1000)
+backLegSensorValues = np.zeros(c.iterations)
+frontLegSensorValues = np.zeros(c.iterations)
 
-backLegMotorValues = np.zeros(1000)
-frontLegMotorValues = np.zeros(1000)
-
-angs = np.linspace(-np.pi, np.pi, 1000)
-targetAngs = (np.pi/4)*np.sin(angs)
-#plt.plot(targetAngs)
-#plt.show();
-
-backLegamplitude = np.pi/4
-backLegfrequency = 10
-backLegphaseOffset = np.pi/4
-
-frontLegamplitude = np.pi/4
-frontLegfrequency = 10
-frontLegphaseOffset = 0
-
+backLegMotorValues = np.zeros(c.iterations)
+frontLegMotorValues = np.zeros(c.iterations)
 
 pyrosim.Prepare_To_Simulate("body.urdf")
-for i in range(1000):
+for i in range(c.iterations):
     p.stepSimulation()
     backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("bLeg")
     frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("fLeg")
 
-    backLegMotorValues[i] = backLegamplitude * np.sin(backLegfrequency * (((i/1000)*(2*np.pi))-(np.pi)) + backLegphaseOffset)
-    frontLegMotorValues[i] = frontLegamplitude * np.sin(frontLegfrequency * (((i/1000)*(2*np.pi))-(np.pi)) + frontLegphaseOffset)
+    backLegMotorValues[i] = c.backLegamplitude * np.sin(c.backLegfrequency * (((i/1000)*(2*np.pi))-(np.pi)) + c.backLegphaseOffset)
+    frontLegMotorValues[i] = c.frontLegamplitude * np.sin(c.frontLegfrequency * (((i/1000)*(2*np.pi))-(np.pi)) + c.frontLegphaseOffset)
 
     pyrosim.Set_Motor_For_Joint(
 
@@ -68,7 +56,7 @@ for i in range(1000):
 
     targetPosition = backLegMotorValues[i],
 
-    maxForce = 25)
+    maxForce = c.maxForce)
 
     pyrosim.Set_Motor_For_Joint(
 
@@ -80,12 +68,9 @@ for i in range(1000):
 
     targetPosition = frontLegMotorValues[i],
 
-    maxForce = 25)
-
-    
-    if i < 19:
-        print(random.random()-math.pi/2)
+    maxForce = c.maxForce)
     time.sleep(1/60)
+
 p.disconnect()
 
 #print(backLegSensorValues)
