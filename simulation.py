@@ -46,9 +46,9 @@ for i in range(1000):
 
     controlMode = p.POSITION_CONTROL,
 
-    targetPosition = random.random()*(0.5*math.pi)-math.pi/4,
+    targetPosition = random.random()*(math.pi)-math.pi/2,
 
-    maxForce = 500)
+    maxForce = 25)
 
     pyrosim.Set_Motor_For_Joint(
 
@@ -58,9 +58,9 @@ for i in range(1000):
 
     controlMode = p.POSITION_CONTROL,
 
-    targetPosition = random.random()*(0.5*math.pi)-math.pi/4,
+    targetPosition = random.random()*(math.pi)-math.pi/2,
 
-    maxForce = 500)
+    maxForce = 25)
 
     
     if i < 19:
