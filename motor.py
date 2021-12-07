@@ -15,7 +15,8 @@ class MOTOR:
         self.frequency = c.frequency
         self.phaseOffset = c.phaseOffset
         self.maxForce = c.maxForce
-
+        if self.jointName == 'Torso_bLeg':
+            self.frequency = float(0.5*float(self.frequency))
         self.motorValues = self.amplitude * np.sin(self.frequency * np.linspace(-np.pi, np.pi, 1000) + self.phaseOffset)
 
     def Set_Value(self, robot, t):
