@@ -1,30 +1,5 @@
 import pyrosim.pyrosim as pyrosim
 
-# tell pyrosim where to store information about the world you'd like to create. 
-# This world will currently be called box, 
-# because it will only contain a box 
-# (links can be spheres, cylinders, or boxes).
-#pyrosim.Start_SDF("boxes.sdf")
-
-
-#stores a box with initial position x=0, y=0, z=0.5, 
-#and length, width and height all equal to 1 meter, in box.sdf
-
-
-
-#x2, y2, z2 = 0, 1, 1.5
-#pyrosim.Send_Cube(name="Box2", pos=[x2,y2,z2] , size=[length, width, height])
-
-#for 6x6x10 tower of reducing sized blocks
-#top=0
-#for i in range(10):
-#    for j in range(6):
-#        for k in range(6):
-#            length, width, height = 1*(0.9**i), 1*(0.9**i), 1*(0.9**i)
-#            x, y, z = 0+j, 0+k, top + (0.5*height)
-#            pyrosim.Send_Cube(name="Box", pos=[x,y,z] , size=[length, width, height])
-#    top += height
-
 def Create_World():
     pyrosim.Start_SDF("min_wrld.sdf")
 
@@ -34,9 +9,7 @@ def Create_World():
 
     pyrosim.End()
 
-def Create_Robot():
-    zm=0#0.5#abs((2*(0.5**2))**(1/2)-0.5)
-    print(zm)
+def Generate_Body():
     pyrosim.Start_URDF("body.urdf")
 
     length, width, height = 1, 1, 1
@@ -57,6 +30,22 @@ def Create_Robot():
 
     pyrosim.End()
 
+def Generate_Brain():
+    pyrosim.Start_NeuralNetwork("brain.nndf")
+
+    pyrosim.Send_Sensor_Neuron(name = 0, linkName = "Torso")
+
+    pyrosim.Send_Sensor_Neuron(name = 1, linkName = "bLeg")
+
+    pyrosim.Send_Sensor_Neuron(name = 2, linkName = "fLeg")
+
+    pyrosim.Send_Motor_Neuron(name = 3, jointName = "Torso_bLeg")
+
+    pyrosim.Send_Motor_Neuron(name = 4, jointName = "Torso_fLeg")
+
+    pyrosim.End()
+
 
 Create_World()
-Create_Robot()
+Generate_Body()
+Generate_Brain()
